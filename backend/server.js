@@ -13,7 +13,7 @@ const API_BASE = 'http://125.16.1.204:8080/vtpis/appQuery.do';
 const USE_MOCK = process.env.USE_MOCK === 'true';
 
 const trackedStops = new Set();
-const alerts = {}; // { stopId: { threshold: 5, users: [socket.id] } }
+const alerts = {}; 
 
 async function pollETAs() {
   for (const stopId of trackedStops) {
@@ -37,7 +37,7 @@ async function pollETAs() {
   }
 }
 
-setInterval(pollETAs, 30000); // Poll every 30s
+setInterval(pollETAs, 30000); 
 
 function checkAlerts(stopId, buses) {
   if (alerts[stopId]) {
@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
   console.log('Client connected:', socket.id);
   socket.on('trackStop', (stopId) => {
     trackedStops.add(stopId);
-    pollETAs(); // Immediate poll
+    pollETAs(); 
   });
   socket.on('untrackStop', (stopId) => {
     trackedStops.delete(stopId);
@@ -72,4 +72,5 @@ io.on('connection', (socket) => {
 });
 
 const PORT = process.env.PORT || 5000;
+
 server.listen(PORT, () => console.log(`Backend running on port ${PORT}`));
